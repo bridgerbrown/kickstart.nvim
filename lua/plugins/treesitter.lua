@@ -1,15 +1,16 @@
 return {
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
+  "romus204/tree-sitter-manager.nvim",
+  -- tree-sitter CLI must be installed system-wide:
+  -- npm install -g tree-sitter-cli
+  dependencies = {},
+  config = function()
+    require("tree-sitter-manager").setup({
+      -- Default Options
       ensure_installed = {
         'python',
         'bash',
-        -- 'c',
-        -- 'c_sharp',
+        'c',
+        'c_sharp',
         'diff',
         'html',
         'lua',
@@ -19,18 +20,21 @@ return {
         'query',
         'vim',
         'vimdoc',
+        'css',
+        'rust',
+        'sql',
+        'go',
+        'nginx',
+        'regex',
+        'tmux',
+        'tsx',
+        'typescript',
+        'yaml',
+        'zsh'
       },
-      -- Autoinstall languages that are not installed
-      auto_install = false,
-      highlight = {
-        enable = true,
-        disable = { 'feature', 'tsx', 'typescript' },
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-  },
+      border = "rounded", -- border style for the window (e.g. "rounded", "single"), if nil, use the default border style defined by 'vim.o.winborder'. See :h 'winborder' for more info.
+      auto_install = false, -- if enabled, install missing parsers when editing a new file
+      -- languages = {}, -- override or add new parser sources
+    })
+  end
 }

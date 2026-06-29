@@ -30,6 +30,7 @@ return {
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
     },
     config = function()
       -- See `:help cmp`
@@ -38,6 +39,11 @@ return {
       luasnip.config.setup {}
 
       cmp.setup {
+        window = {
+          completion = {
+            max_height = 20,
+          },
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -60,12 +66,15 @@ return {
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { 
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false
+          },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<C-x>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -90,14 +99,29 @@ return {
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
+          { name = 'buffer', priority = 6 },
+          { name = 'nvim_lsp', priority = 5 },
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
+            priority = 4
           },
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-          { name = 'path' },
+          { name = 'luasnip', priority = 3 },
+          { name = 'path', priority = 2 },
+        },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            cmp.config.compare.offset,        -- prefer matches closer to start of typed text
+            cmp.config.compare.exact,         -- exact matches above fuzzy matches
+            cmp.config.compare.score,         -- main fuzzy match quality score
+            cmp.config.compare.kind,          -- item type order: Variable/Field/Function > Text
+            cmp.config.compare.recently_used, -- items you've confirmed recently rank higher
+            cmp.config.compare.locality,      -- prefer items defined closer to cursor
+            cmp.config.compare.length,        -- shorter completions before longer ones
+            cmp.config.compare.order,         -- final tiebreaker: original LSP order
+          },
         },
       }
     end,

@@ -178,7 +178,16 @@ return {
             },
           },
         },
-        sqlls = {},
+        -- sqlls = {},
+        rust_analyzer = {
+          settings = {
+            ['rust_analyzer'] = {
+              diagnostics = {
+                enable = false;
+              }
+            }
+          }
+        }
       }
 
       -- Ensure the servers and tools above are installed
@@ -192,7 +201,7 @@ return {
         'stylua', -- Lua language
         'basedpyright', -- Python language 
         'debugpy',
-        'sqlls'
+        -- 'sqlls'
       })
       require('mason-tool-installer').setup{ ensure_installed = ensure_installed }
 
@@ -200,7 +209,7 @@ return {
         ensure_installed = {
           'basedpyright',
           'lua_ls',
-          'sqlls'
+          'rust_analyzer'
         },
         automatic_installation = true,
         automatic_enable = true,

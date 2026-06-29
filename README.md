@@ -1,4 +1,3 @@
-## NVIM Config
-
--- kickstart.nvim (nvim-lua/kickstart.nvim)
--- install `ripgrep` on systyem if you want telescope to have grep functionality
+# Setup
+-- install `ripgrep` on system if you want telescope to have grep functionality
+-- tree-sitter CLI must be installed system-wide: `npm install -g tree-sitter-cli`
