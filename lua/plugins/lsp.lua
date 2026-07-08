@@ -148,6 +148,7 @@ return {
         update_in_insert = true,
       })
 
+      -- 2. ADD SETUP SETTINGS FOR NEW CONFIG UNLESS DEFAULT IS OKAY
       local servers = {
         basedpyright = {
           enabled = true,
@@ -178,7 +179,6 @@ return {
             },
           },
         },
-        -- sqlls = {},
         rust_analyzer = {
           settings = {
             ['rust_analyzer'] = {
@@ -187,7 +187,7 @@ return {
               }
             }
           }
-        }
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -197,19 +197,22 @@ return {
       require('mason').setup()
       local ensure_installed = vim.tbl_keys(servers or {})
 
+      -- 3. ENSURES MASON FUNCTIONALITY FOR CONFIGS, mason will already try to install these itself,
+      --    so can be redundant but not dangerous.
       vim.list_extend(ensure_installed, {
         'stylua', -- Lua language
         'basedpyright', -- Python language 
         'debugpy',
-        -- 'sqlls'
       })
       require('mason-tool-installer').setup{ ensure_installed = ensure_installed }
 
+      -- 1. ADD HERE FOR NEW MASON LSP CONFIGS
       require('mason-lspconfig').setup {
         ensure_installed = {
           'basedpyright',
           'lua_ls',
-          'rust_analyzer'
+          'rust_analyzer',
+          'vtsls',
         },
         automatic_installation = true,
         automatic_enable = true,

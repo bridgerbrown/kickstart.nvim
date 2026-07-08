@@ -1,9 +1,11 @@
 return {
   {
-    'rebelot/kanagawa.nvim', -- GOAT
+    -- 'rebelot/kanagawa.nvim', -- GOAT
+    'shatur/neovim-ayu',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      vim.cmd("colorscheme kanagawa-wave")
+      -- vim.cmd("colorscheme kanagawa-wave")
+      vim.cmd("colorscheme ayu")
 
       -- -- -- BACKGROUND COLOR ADJUSTMENTS
       -- local bg_color = '#f0f0f0'
